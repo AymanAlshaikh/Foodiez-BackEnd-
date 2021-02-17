@@ -5,11 +5,13 @@ const db = require("./db/models");
 const path = require("path");
 const dirPath = path.join(__dirname, "media");
 const categoryRoutes = require("./routes/categoryRoutes");
+const ingredientRoutes = require("./routes/ingredientRoutes");
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use("/categories", categoryRoutes);
+app.use("/ingredients", ingredientRoutes);
 app.use("/media", express.static(dirPath));
 
 app.use((req, res, next) => {

@@ -26,7 +26,7 @@ router.delete("/:categoryId", removeCategory);
 
 router.post("/", upload.single("image"), newCategory);
 
-//router.post("/:categoryId/data", upload.single("image"), newIngredient);
+router.post("/:categoryId/ingredients", upload.single("image"), newIngredient);
 
 router.put("/:categoryId", upload.single("image"), updateCategory);
 
