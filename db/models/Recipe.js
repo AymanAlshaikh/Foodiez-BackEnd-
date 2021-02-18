@@ -11,13 +11,7 @@ const Recipes = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       name: { type: DataTypes.STRING, allowNull: false },
-      price: {
-        type: DataTypes.FLOAT,
-        defaultValue: 5,
-        validate: {
-          min: 0.1,
-        },
-      },
+
       description: { type: DataTypes.STRING },
     },
     { timestamps: false }

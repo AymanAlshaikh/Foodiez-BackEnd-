@@ -7,6 +7,7 @@ const {
   removeIngredient,
   fetchIngredient,
   ingredientList,
+  newRecipe,
 } = require("../controllers/ingredientController");
 
 router.param("ingredientId", async (req, res, next, ingredientId) => {
@@ -23,9 +24,9 @@ router.get("/", ingredientList);
 
 router.delete("/:ingredientId", removeIngredient);
 
-// router.post("/", upload.single("image"), newIngredient);
+router.post("/", upload.single("image"), newIngredient);
 
-//router.post("/:ingredientId/data", upload.single("image"), newIngredient);
+router.post("/:ingredientId/recipes", upload.single("image"), newRecipe);
 
 router.put("/:ingredientId", upload.single("image"), updateIngredient);
 

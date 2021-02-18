@@ -1,4 +1,4 @@
-const { Category, Ingredient } = require("../db/models");
+const { Category, Ingredient, Recipe } = require("../db/models");
 
 exports.fetchIngredient = async (ingredientId, next) => {
   try {
@@ -13,13 +13,14 @@ exports.ingredientList = async (req, res, next) => {
   try {
     const ingredient = await Ingredient.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
-      //   include: [
-      //     {
-      //       model: Ingredient,
-      //       attributes: ["id"],
-      //       as: "ingredients",
-      //     },
-      //   ],
+      include: [
+        {
+          model: Category,
+          attributes: ["name"],
+          as: "category",
+        },
+        { model: Recipe, through: { attributes: ["RecipeId"] }, as: "recipe" },
+      ],
     });
     res.json(ingredient);
   } catch (error) {
@@ -37,19 +38,19 @@ exports.removeIngredient = async (req, res, next) => {
   }
 };
 
-// exports.newIngredient = async (req, res, next) => {
-//   console.log(req.body);
-//   try {
-//     if (req.file) {
-//       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-//     }
-//     const newIngredient = await Ingredient.create(req.body);
-//     res.status(201);
-//     res.json(newIngredient);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+exports.newIngredient = async (req, res, next) => {
+  console.log(req.body);
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    const newIngredient = await Ingredient.create(req.body);
+    res.status(201);
+    res.json(newIngredient);
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.updateIngredient = async (req, res, next) => {
   try {
@@ -58,6 +59,25 @@ exports.updateIngredient = async (req, res, next) => {
     }
     await req.whatever.update(req.body);
     res.json(req.whatever);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.newRecipe = async (req, res, next) => {
+  console.log(req.body);
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    req.body.ingredientId = req.whatever.id;
+
+    const newRecipe = await Recipe.create(req.body);
+    await newRecipe.addIngrediants(Ingredient, {
+      through: { attributes: ["id"] },
+    });
+    res.status(201);
+    res.json(newRecipe.addIngrediant(req.body.Ingredient));
   } catch (error) {
     next(error);
   }

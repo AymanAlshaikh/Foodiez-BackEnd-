@@ -6,12 +6,14 @@ const path = require("path");
 const dirPath = path.join(__dirname, "media");
 const categoryRoutes = require("./routes/categoryRoutes");
 const ingredientRoutes = require("./routes/ingredientRoutes");
+const recipeRoutes = require("./routes/recipeRoutes");
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use("/categories", categoryRoutes);
 app.use("/ingredients", ingredientRoutes);
+app.use("/recipes", recipeRoutes);
 app.use("/media", express.static(dirPath));
 
 app.use((req, res, next) => {
@@ -25,7 +27,7 @@ app.use((err, req, res, next) => {
 
 const run = async () => {
   try {
-    await db.sequelize.sync({});
+    await db.sequelize.sync();
     console.log("Connection to the database successful!");
     await app.listen(8000, () => {
       console.log("The application is running on localhost:8000");

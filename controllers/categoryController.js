@@ -13,11 +13,11 @@ exports.categoryList = async (req, res, next) => {
   try {
     const category = await Category.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
-      // include: {
-      //   model: Ingredient,
-      //   attributes: ["id"],
-      //   as: "ingredients",
-      // },
+      include: {
+        model: Ingredient,
+        attributes: ["id"],
+        as: "ingredients",
+      },
     });
     res.json(category);
   } catch (error) {
