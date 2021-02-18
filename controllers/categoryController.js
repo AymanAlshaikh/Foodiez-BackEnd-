@@ -13,7 +13,6 @@ exports.categoryList = async (req, res, next) => {
   try {
     const category = await Category.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
-      //موراضي يشتغل
       // include: {
       //   model: Ingredient,
       //   attributes: ["id"],
