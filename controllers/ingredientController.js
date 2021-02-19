@@ -19,7 +19,7 @@ exports.ingredientList = async (req, res, next) => {
           attributes: ["name"],
           as: "category",
         },
-        { model: Recipe, through: { attributes: ["id"] }, as: "recipe" },
+        // { model: Recipe, through: { attributes: ["id"] }, as: "recipe" },
       ],
     });
     res.json(ingredient);
