@@ -55,11 +55,16 @@ db.Ingredient.belongsTo(db.Category, {
   as: "category",
 });
 
-db.Ingredient.belongsToMany(db.Recipe, { through: "meal", as: "recipe" });
+db.Ingredient.belongsToMany(db.Recipe, {
+  through: "meal",
+  as: "recipe",
+  //foreignKey: "ingredientId",
+});
 
 db.Recipe.belongsToMany(db.Ingredient, {
   through: "meal",
   as: "ingredients",
+  //foreignKey: "recipeId",
 });
 
 module.exports = db;

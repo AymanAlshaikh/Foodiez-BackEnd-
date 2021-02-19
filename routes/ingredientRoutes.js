@@ -26,7 +26,7 @@ router.delete("/:ingredientId", removeIngredient);
 
 router.post("/", upload.single("image"), newIngredient);
 
-router.post("/:ingredientId/recipes", upload.single("image"), newRecipe);
+//router.post("/:ingredientId/recipes", upload.single("image"), newRecipe);
 
 router.put("/:ingredientId", upload.single("image"), updateIngredient);
 
