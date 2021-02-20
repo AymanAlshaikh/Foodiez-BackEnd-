@@ -14,13 +14,13 @@ exports.recipeList = async (req, res, next) => {
   try {
     const recipe = await Recipe.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
-      // include: [
-      //   {
-      //     model: Ingredient,
-      //     attributes: ["name"],
-      //     as: "ingredients",
-      //   },
-      // ],
+      include: [
+        {
+          model: Ingredient,
+          attributes: ["name"],
+          as: "ingredients",
+        },
+      ],
     });
     res.json(recipe);
   } catch (error) {
@@ -61,9 +61,13 @@ exports.newRecipe = async (req, res, next) => {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
-    const newRecipe = await Recipe.create(req.body);
+    // const newRecipe = Recipe.create({ id: 1 }).then((ingredient) => {
+    //   newRecipe.addIngredients([ingredient, 1]);
+    // });
+    const newRecipe = await Recipe.create(req.body[0]);
+    const meal = await newRecipe.addIngredients(req.body[1]);
     res.status(201);
-    res.json(newRecipe);
+    res.json(newRecipe, meal);
   } catch (error) {
     next(error);
   }
