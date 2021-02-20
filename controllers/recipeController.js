@@ -64,10 +64,10 @@ exports.newRecipe = async (req, res, next) => {
     // const newRecipe = Recipe.create({ id: 1 }).then((ingredient) => {
     //   newRecipe.addIngredients([ingredient, 1]);
     // });
-    const newRecipe = await Recipe.create(req.body[0]);
-    const meal = await newRecipe.addIngredients(req.body[1]);
+    const newRecipe = await Recipe.create(req.body);
+    const meal = await newRecipe.addIngredients(req.body.ingredients);
     res.status(201);
-    res.json(newRecipe, meal);
+    res.json({ newRecipe, meal });
   } catch (error) {
     next(error);
   }
