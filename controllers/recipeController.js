@@ -17,11 +17,12 @@ exports.recipeList = async (req, res, next) => {
       include: [
         {
           model: Ingredient,
-          attributes: ["name"],
+          attributes: ["name", "id"],
           as: "ingredients",
         },
       ],
     });
+
     res.json(recipe);
   } catch (error) {
     next(error);
@@ -67,7 +68,7 @@ exports.newRecipe = async (req, res, next) => {
     const newRecipe = await Recipe.create(req.body);
     const meal = await newRecipe.addIngredients(req.body.ingredients);
     res.status(201);
-    res.json({ newRecipe, meal });
+    res.json({ ...newRecipe.toJSON(), ...meal });
   } catch (error) {
     next(error);
   }
